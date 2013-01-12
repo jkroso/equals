@@ -1,7 +1,7 @@
 exports = module.exports = deepEqual
 
-// Make sure buffer is defined incase we are running in the browser
-var Buffer = Buffer || {}
+// Get a local reference to Buffer. This prevents errors being thrown if we are in a browser
+var Buffer = global.Buffer
 
 /**
  * Values are considered equal if they could be swapped without consequence

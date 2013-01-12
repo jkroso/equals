@@ -165,3 +165,14 @@ describe('equal.all(...)', function () {
 		equal.all.apply(null, vals).should.equal(true)
 	})
 })
+
+if (global.Buffer) {
+	describe('Buffer', function () {
+		it('should pass if they contain the same bytes', function () {
+			equal(new Buffer('abc'), new Buffer('abc')).should.be.true
+		})
+		it('should fail otherwise', function () {
+			equal(new Buffer('a'), new Buffer('b')).should.be.false
+		})
+	})
+}
