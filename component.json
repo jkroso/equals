@@ -1,0 +1,14 @@
+{
+  "name": "equal",
+  "repo": "jkroso/equal",
+  "description": "Check if two values are equivalent. This is a deep equivalence check",
+  "version": "0.1.0",
+  "keywords": ["equality", "equal", "same", "equivalent", "equivalence", "="],
+  "dependencies": {},
+  "main": "src/index.js",
+  "scripts": [
+	"src/index.js"
+  ],
+  "styles":[],
+  "license": "MIT"
+}

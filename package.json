@@ -1,0 +1,26 @@
+{
+  "name": "equal",
+  "version": "0.1.0",
+  "description": "Check if two values are equivalent. This is a deep equivalence check",
+  "main": "src/index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "*",
+    "chai": "*",
+    "laissez-faire": "*",
+    "bigfile": "*"
+  },
+  "scripts" : {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jkroso/equal.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jkroso/equal/issues"
+  },
+  "keywords": ["equality", "equal", "same", "equivalent", "equivalence", "="],
+  "author": "Jakeb Rosoman",
+  "license": "MIT"
+}
