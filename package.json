@@ -1,7 +1,7 @@
 {
-  "name": "equal",
+  "name": "equals",
   "version": "0.1.0",
-  "description": "Check if two values are equivalent. This is a deep equivalence check",
+  "description": "Check if two values are deeply equivalent",
   "main": "src/index.js",
   "dependencies": {},
   "devDependencies": {
@@ -15,10 +15,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/jkroso/equal.git"
+    "url": "git://github.com/jkroso/equals.git"
   },
   "bugs": {
-    "url": "https://github.com/jkroso/equal/issues"
+    "url": "https://github.com/jkroso/equals/issues"
   },
   "keywords": ["equality", "equal", "same", "equivalent", "equivalence", "="],
   "author": "Jakeb Rosoman",

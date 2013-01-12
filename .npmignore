@@ -5,6 +5,7 @@
 /build
 /docs
 /test
+/dist
 /Readme.md
 /.bigfile-config.js
 /Makefile

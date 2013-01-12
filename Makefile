@@ -1,14 +1,6 @@
-EXPORT = equal
+EXPORT = equals
 
 all: clean build test
-
-install: components
-
-components:
-	@component install -d
-
-build: install
-	@component build -dv
 
 test:
 	@node_modules/.bin/mocha -R spec test/*.test.js
@@ -22,7 +14,7 @@ build-test:
 dist:
 	@rm -rf dist
 	@mkdir dist
-	@node_modules/.bin/bigfile --entry=src/index.js --write=dist/equal.js -p -x $(EXPORT)
+	@node_modules/.bin/bigfile --entry=src/index.js --write=dist/equals.min.js -p -x $(EXPORT)
 
 clean:
 	@rm -rf dist test/built.js components build
@@ -34,4 +26,4 @@ Readme.md: src/index.js docs/head.md docs/tail.md
 	 | dox -a >> Readme.md
 	@cat docs/tail.md >> Readme.md
 
-.PHONY: all build test build-test clean install dist
+.PHONY: all build test build-test clean dist
