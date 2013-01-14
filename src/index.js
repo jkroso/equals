@@ -158,10 +158,8 @@ function objEquiv(a, b, memos) {
 exports.all = allEqual
 function allEqual () {
 	var i = arguments.length
-	while (i--) {
-		var a = arguments[i--]
-		if (i < 0) return true
-		if (!deepEqual(a, arguments[i])) return false
+	while (i > 1) {
+		if (!deepEqual(arguments[--i], arguments[--i])) return false
 	}
 	return true
 }

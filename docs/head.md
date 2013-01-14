@@ -12,7 +12,7 @@ In Node.js
 
 `npm install equals --save`
 
-A pre-built browser version is also [available](https://raw.github.com/jkroso/equals/master/dist/equals.js). It exports the global variable equal. 
+A pre-built browser version is also [available](https://raw.github.com/jkroso/equals/master/dist/equals.min.js). It exports the global variable equal. 
 
 ## API
 
