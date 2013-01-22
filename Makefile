@@ -1,20 +1,34 @@
-EXPORT = equals
+EXPORT = equal
+SRC = src/*.js
+GRAPH = node_modules/.bin/sourcegraph.js src/index.js --plugins=javascript,nodeish
+BIGFILE = node_modules/.bin/bigfile -p nodeish --export $(EXPORT)
 
-all: clean build test
+all: clean dist dist/equals.min.js test Readme.md
+
+browser: dist/equals.min.js.gz dist/equals.js
+
+dist:
+	@mkdir dist
+
+dist/equals.min.js.gz: dist/equals.min.js
+	@gzip --best -c dist/equals.min.js > dist/equals.min.js.gz
+
+dist/equals.min.js:
+	@$(GRAPH) | $(BIGFILE)\
+		--production > dist/equals.min.js
+
+dist/equals.js:
+	@$(GRAPH) | $(BIGFILE) > dist/equals.js
 
 test:
 	@node_modules/.bin/mocha -R spec test/*.test.js
 
-debug:
-	@node_modules/.bin/mocha debug test/*.test.js
-
-build-test:
-	@node_modules/.bin/bigfile --entry=test/browser.js --write=test/built.js -lb
-
-dist:
-	@rm -rf dist
-	@mkdir dist
-	@node_modules/.bin/bigfile --entry=src/index.js --write=dist/equals.min.js -p -x $(EXPORT)
+test/built.js: src/*.js test/*.test.js test/browser.js
+	@node_modules/.bin/sourcegraph.js test/browser.js \
+		--plugins mocha,nodeish,javascript \
+		| node_modules/.bin/bigfile \
+		 	--export null \
+		 	--plugins nodeish > test/built.js
 
 clean:
 	@rm -rf dist test/built.js components build

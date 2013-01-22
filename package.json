@@ -8,9 +8,10 @@
     "mocha": "*",
     "chai": "*",
     "laissez-faire": "*",
-    "bigfile": "*"
+    "bigfile": "~0.2.2",
+    "sourcegraph": "~0.4.1"
   },
-  "scripts" : {
+  "scripts": {
     "test": "make test"
   },
   "repository": {
@@ -20,7 +21,14 @@
   "bugs": {
     "url": "https://github.com/jkroso/equals/issues"
   },
-  "keywords": ["equality", "equal", "same", "equivalent", "equivalence", "="],
+  "keywords": [
+    "equality",
+    "equal",
+    "same",
+    "equivalent",
+    "equivalence",
+    "="
+  ],
   "author": "Jakeb Rosoman",
   "license": "MIT"
 }

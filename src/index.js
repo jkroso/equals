@@ -1,7 +1,11 @@
 exports = module.exports = deepEqual
 
 // Get a local reference to Buffer. This prevents errors being thrown if we are in a browser
-var Buffer = global.Buffer
+try { var Buffer = global.Buffer } 
+catch (e) {
+	// Set it to a unique value we know will never be matched
+	Buffer = {}
+}
 
 /**
  * Values are considered equal if they could be swapped without consequence
@@ -55,7 +59,7 @@ function deepEqual (a, b, memos) {
 		default: return false
 	}
 
-	// Null is considered an object
+	// Null is considered an object so needs a special case
 	if (a === null) return b === null
 	// At this point we know that both a and b are objects
 
