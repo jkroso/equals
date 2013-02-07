@@ -1,11 +1,13 @@
 exports = module.exports = deepEqual
+exports.object = objEquiv
+exports.all = allEqual
 
-// Get a local reference to Buffer. This prevents errors being thrown if we are in a browser
-try { var Buffer = global.Buffer } 
-catch (e) {
-	// Set it to a unique value we know will never be matched
-	Buffer = {}
-}
+/*!
+ * Get a local reference to Buffer since otherwise if we are in a browser 
+ * and the lookup goes all the way to the top without a hit we crash
+ */
+
+var Buffer = (function(){return this}()).Buffer
 
 /**
  * Values are considered equal if they could be swapped without consequence
@@ -75,13 +77,12 @@ function deepEqual (a, b, memos) {
 		// Note: Buffers do not exist in browsers but that shouldn't cause problems easilly
 		case Buffer:
 			// Fast buffer equality check
-			if (a.length != b.length) return false
+			if (a.length !== b.length) return false
 			for (var i = 0; i < a.length; i++) {
 				if (a[i] !== b[i]) return false
 			}
 			return true
 	}
-
 	// compare as a map of properties to values
 	return objEquiv(a, b, memos)
 }
@@ -106,9 +107,10 @@ function deepEqual (a, b, memos) {
  * @param {Object|Array} b
  * @param {Array} [memos] uses internally to keep track of visited objects
  * @return {Boolean}
+ * 
+ * TODO: fix equals([],{length:0})
  */
 
-exports.object = objEquiv
 function objEquiv(a, b, memos) {
 	// check if we have already compared a and b
 	if (memos) {
@@ -159,7 +161,6 @@ function objEquiv(a, b, memos) {
  * @return {Boolean}
  */
 
-exports.all = allEqual
 function allEqual () {
 	var i = arguments.length
 	while (i > 1) {

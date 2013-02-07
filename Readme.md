@@ -12,7 +12,7 @@ In Node.js
 
 `npm install equals --save`
 
-A pre-built browser version is also [available](https://raw.github.com/jkroso/equals/master/dist/equals.js). It exports the global variable equal. 
+A pre-built browser version is also [available](https://raw.github.com/jkroso/equals/master/dist/equals.min.js). It exports the global variable equal. 
 
 ## API
 
@@ -20,8 +20,8 @@ A pre-built browser version is also [available](https://raw.github.com/jkroso/eq
 var equal = require('equals')
 ```
   - [deepEqual()](#deepequal)
-  - [exports.object](#exportsobject)
-  - [exports.all](#exportsall)
+  - [objEquiv()](#objequiv)
+  - [allEqual()](#allequal)
 
 ## deepEqual()
 
@@ -52,7 +52,7 @@ equal(
   - Non enumerable properties will not be checked. (They can't be)
   - Arguments objects may differ on callee. Slice them first if you don't want to consider that
 
-## exports.object
+## objEquiv()
 
   If you already know the two things you are comparing are Object instances
   you can save processing time by calling this function directly. It doesn't 
@@ -71,7 +71,7 @@ equal.object(
   every key.
   Note: this accounts for both named and indexed properties on Arrays.
 
-## exports.all
+## allEqual()
 
   Check that a sequence of values are equal
   

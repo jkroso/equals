@@ -33,11 +33,11 @@ test/built.js: src/*.js test/*.test.js test/browser.js
 clean:
 	@rm -rf dist test/built.js components build
 
-Readme.md: src/index.js docs/head.md docs/tail.md
+Readme.md: src/* docs/*
 	@cat docs/head.md > Readme.md
 	@cat src/index.js\
 	 | sed s/.*=.$$//\
 	 | dox -a >> Readme.md
 	@cat docs/tail.md >> Readme.md
 
-.PHONY: all build test build-test clean dist
+.PHONY: all build test clean dist

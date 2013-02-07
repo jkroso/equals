@@ -1,6 +1,6 @@
 {
   "name": "equals",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Check if two values are deeply equivalent",
   "main": "src/index.js",
   "dependencies": {},
