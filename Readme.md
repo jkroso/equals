@@ -54,13 +54,12 @@ equal(
 
 ## objEquiv()
 
-  If you already know the two things you are comparing are Object instances
-  you can save processing time by calling this function directly. It doesn't 
-  matter what the objects contain internally as per the main function.
+  If you already know the two things you are non-primitive you can save 
+  processing time by calling this function directly.
   
 ```js
-equal.object(
-  {0:'first', 1: 'second'},
+equals.object(
+  {0:'first', 1: 'second', length:2},
   ['first', 'second']
 ) // => true
 ```
@@ -69,7 +68,14 @@ equal.object(
   For objects equivalence is determined by having the same number of 
   enumerable properties, the same set of keys, and equivalent values for 
   every key.
-  Note: this accounts for both named and indexed properties on Arrays.
+  Note: the indexed properties of Arrays are enumerable therefore their
+  values will be compared. Also `length` is always considered enumerable
+  for the purpose of this test therefore:
+  
+```js
+equals([], {length:0}) // => true`
+equals([], {}) // => false`
+```
 
 ## allEqual()
 
