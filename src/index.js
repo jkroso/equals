@@ -40,11 +40,11 @@ function deepEqual (a, b, memos) {
 		case 'object': break
 		
 		case 'function': 
-			// an identical 'prototype' property.
 			if (typeof b !== 'function') return false 
 			if (a.length !== b.length) return false
 			// TODO: fix argument names problem 
 			if (a.toString() !== b.toString()) return false
+			// an identical 'prototype' property.
 			if (!deepEqual(a.prototype, b.prototype)) return false
 			// Functions can act as objects but perhaps we shouldn't compare on that basis
 			return objEquiv(a, b)
@@ -73,8 +73,8 @@ function deepEqual (a, b, memos) {
 		case Date:
 			return b instanceof Date && +a === +b
 		case RegExp:
-			return a.toString() === b.toString()
-		// Note: Buffers do not exist in browsers but that shouldn't cause problems easilly
+			return b instanceof RegExp && a.toString() === b.toString()
+		// Note: Buffers do not exist in browsers but that shouldn't cause problems
 		case Buffer:
 			// Fast buffer equality check
 			if (a.length !== b.length) return false
@@ -116,8 +116,7 @@ function objEquiv(a, b, memos) {
 	if (memos) {
 		var i = memos.length, memo
 		while (memo = memos[--i]) {
-			if (memo[0] === a && memo[1] === b)
-				return true
+			if (memo[0] === a && memo[1] === b) return true
 		}
 	} else {
 		memos = []
@@ -170,6 +169,16 @@ function allEqual () {
 }
 
 /*!
+ * A list of properties which are sometimes enumerable
+ * so should be ignored
+ */
+
+var ignore = {
+	constructor: true,
+	length: true
+}
+
+/*!
  * Extract all enumerable keys whether on the object or its prototype chain
  *
  * @param {Object} object
@@ -179,7 +188,7 @@ function allEqual () {
 function getEnumerableProperties (object) {
 	var result = []
 	for (var name in object) {
-		result.push(name)
+		if (!ignore[name]) result.push(name)
 	}
 	return result
 }
