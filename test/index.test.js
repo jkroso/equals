@@ -33,9 +33,8 @@ describe('export.object(a,b)', function () {
 			{ a : [ 2, 3 ], b : [ 4 ] },
 			{ a : [ 2, 3 ], b : [ 4 ] }
 		).should.be.true
-
 		equal.object(
-			{0:'first', 1: 'second'},
+			{0:'first', 1: 'second', length:2},
 			['first', 'second']
 		).should.be.true
 	})

@@ -40,11 +40,11 @@ function deepEqual (a, b, memos) {
 		case 'object': break
 		
 		case 'function': 
-			// an identical 'prototype' property.
 			if (typeof b !== 'function') return false 
 			if (a.length !== b.length) return false
 			// TODO: fix argument names problem 
 			if (a.toString() !== b.toString()) return false
+			// an identical 'prototype' property.
 			if (!deepEqual(a.prototype, b.prototype)) return false
 			// Functions can act as objects but perhaps we shouldn't compare on that basis
 			return objEquiv(a, b)
@@ -73,8 +73,8 @@ function deepEqual (a, b, memos) {
 		case Date:
 			return b instanceof Date && +a === +b
 		case RegExp:
-			return a.toString() === b.toString()
-		// Note: Buffers do not exist in browsers but that shouldn't cause problems easilly
+			return b instanceof RegExp && a.toString() === b.toString()
+		// Note: Buffers do not exist in browsers but that shouldn't cause problems
 		case Buffer:
 			// Fast buffer equality check
 			if (a.length !== b.length) return false
@@ -89,35 +89,38 @@ function deepEqual (a, b, memos) {
 
 
 /**
- * If you already know the two things you are comparing are Object instances
- * you can save processing time by calling this function directly. It doesn't 
- * matter what the objects contain internally as per the main function.
+ * If you already know the two things you are non-primitive you can save 
+ * processing time by calling this function directly.
  *
- *   equal.object(
- *     {0:'first', 1: 'second'},
+ *   equals.object(
+ *     {0:'first', 1: 'second', length:2},
  *     ['first', 'second']
  *   ) // => true
  * 
  * For objects equivalence is determined by having the same number of 
  * enumerable properties, the same set of keys, and equivalent values for 
  * every key.
- * Note: this accounts for both named and indexed properties on Arrays.
+ * Note: the indexed properties of Arrays are enumerable therefore their
+ * values will be compared. Also `length` is always considered enumerable
+ * for the purpose of this test therefore:
+ * 
+ *   equals([], {length:0}) // => true`
+ *   equals([], {}) // => false`
  * 
  * @param {Object|Array} a
  * @param {Object|Array} b
- * @param {Array} [memos] uses internally to keep track of visited objects
+ * @param {Array} [memos] used internally to keep track of visited objects
  * @return {Boolean}
- * 
- * TODO: fix equals([],{length:0})
  */
 
 function objEquiv(a, b, memos) {
+	// length is a special case we care about even if it isn't enumerable
+	if (a.length !== b.length) return false
 	// check if we have already compared a and b
 	if (memos) {
 		var i = memos.length, memo
 		while (memo = memos[--i]) {
-			if (memo[0] === a && memo[1] === b)
-				return true
+			if (memo[0] === a && memo[1] === b) return true
 		}
 	} else {
 		memos = []
@@ -126,9 +129,8 @@ function objEquiv(a, b, memos) {
 	var ka = getEnumerableProperties(a)
 	  , kb = getEnumerableProperties(b)
 
-	i = ka.length
 	// having the same number of properties
-	if (i !== kb.length) return false
+	if ((i = ka.length) !== kb.length) return false
 
 	//the same set of keys (although not necessarily the same order),
 	ka.sort()
@@ -141,8 +143,7 @@ function objEquiv(a, b, memos) {
 	// remember objects we have compared to guard against circular references
 	memos.push([a, b])
 
-	// equivalent values for every corresponding key, and
-	// possibly expensive deep test
+	// iterate again this time doing a thorough check
 	i = ka.length
 	while (i--) {
 		var key = ka[i]
@@ -170,6 +171,16 @@ function allEqual () {
 }
 
 /*!
+ * A list of properties which are sometimes enumerable
+ * so should be ignored
+ */
+
+var ignore = {
+	constructor: true,
+	length: true
+}
+
+/*!
  * Extract all enumerable keys whether on the object or its prototype chain
  *
  * @param {Object} object
@@ -179,7 +190,7 @@ function allEqual () {
 function getEnumerableProperties (object) {
 	var result = []
 	for (var name in object) {
-		result.push(name)
+		if (!ignore[name]) result.push(name)
 	}
 	return result
 }
