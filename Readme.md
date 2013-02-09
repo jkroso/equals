@@ -25,8 +25,14 @@ var equal = require('equals')
 
 ## deepEqual()
 
-  Values are considered equal if they could be swapped without consequence
+  Primitive types are equal if they represent the same value. 
+  While composite types, i.e. Objects and Arrays, are considered
+  equal if their structure is the same, i.e. they have the same set of 
+  properties, and the primitive type bound to each property has the 
+  same value. Composite structures can be nested preactically as deep 
+  as you like and circular references are fine
   
+  Same structure:
 ```js
 equal(
   { a : [ 2, 3 ], b : [ 4 ] },
@@ -34,7 +40,8 @@ equal(
 ) // => true
 ```
 
-    
+  
+  Different Structure:
 ```js
 equal(
   { x : 5, y : [6] },
@@ -42,20 +49,39 @@ equal(
 ) // => false
 ```
 
+  
+  Same structure, different values:
+```js
+equal(
+  { a: [ 1, 2 ], b : [ 4 ]},
+  { a: [ 2, 3 ], b : [ 4 ]}
+) // => false
+```
+
+  
+  Same values:
+```js
+equal(new Date(0), new Date(0)) // => true
+```
+
     
   Some possible gotchas:
-  
-  - null is __not__ equal to undefined
-  - NaN __is__ equal to NaN (normally not the case in JS)
-  - -0 is equal to +0
-  - Strings will __not__ coerce to numbers
-  - Non enumerable properties will not be checked. (They can't be)
-  - Arguments objects may differ on callee. Slice them first if you don't want to consider that
+  - null is __not__ equal to undefined  
+  - NaN __is__ equal to NaN (normally not the case in JS)  
+  - -0 is equal to +0  
+  - Strings will __not__ coerce to numbers  
+  - Non enumerable properties will not be checked. (They can't be) Though 
+   special exceptions are made for `length` and `constructor` properties
+   since many common patterns make these normally non-enumerable properties 
+   enumerable  
+  - Arguments objects may differ on callee though this property is 
+   non-enumerable so will not be considered. Usually this is the desired 
+   behavior though so no special case has been made for it.
 
 ## objEquiv()
 
-  If you already know the two things you are non-primitive you can save 
-  processing time by calling this function directly.
+  If you already know your values are non-primitive you can save 
+  processing time by calling `equal.object` directly.
   
 ```js
 equals.object(
@@ -68,14 +94,17 @@ equals.object(
   For objects equivalence is determined by having the same number of 
   enumerable properties, the same set of keys, and equivalent values for 
   every key.
-  Note: the indexed properties of Arrays are enumerable therefore their
-  values will be compared. Also `length` is always considered enumerable
-  for the purpose of this test therefore:
+  
+  Note: `length` is always checked even if it isn't enumerable while 
+  `constructor` is never checked:
   
 ```js
 equals([], {length:0}) // => true`
 equals([], {}) // => false`
 ```
+
+  
+  Also note that inherited properties are compared
 
 ## allEqual()
 
@@ -87,7 +116,7 @@ equal.all(1,1,1,1) // => true
 
 
 ## Contributing
-As with all my work this is both a work in progress and a thought in progress. Feel free to chip in in any way you can.
+As with all my work this is both a work in progress and a thought in progress. Feel free to chip in in any way you can. Optimisations are welcome so long as they are supported with benchmarks.
 
 ## Release History
 _(Nothing yet)_

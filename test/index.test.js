@@ -27,6 +27,30 @@ describe('Object strucures', function () {
    })
 })
 
+describe('Comparing arguments', function () {
+	var a = (function a(a,b,c) {return arguments}(1,2,3))
+	var b = (function b(a,b,c) {return arguments}(1,2,3))
+	var c = (function c(a,b,c) {return arguments}(2,2,3))
+
+	it('should not consider the callee', function () {
+		equal(a,b).should.be.true
+		equal(a,c).should.be.false
+	})
+	
+	it('should be comparable to an Array', function () {
+		equal(a,[1,2,3]).should.be.true
+		equal(a,[1,2,4]).should.be.false
+		equal(a,[1,2]).should.be.false
+	})
+
+	it('should be comparable to an Object', function () {
+		equal(a, {0:1,1:2,2:3,length:3}).should.be.true
+		equal(a, {0:1,1:2,2:3,length:4}).should.be.false
+		equal(a, {0:1,1:2,2:4,length:3}).should.be.false
+		equal(a, {0:1,1:2,length:2}).should.be.false
+	})
+})
+
 describe('export.object(a,b)', function () {
 	it('should work just the same as equal for objects', function () {
 		equal.object(
@@ -165,13 +189,13 @@ describe('equal.all(...)', function () {
 	})
 })
 
+// Don't run these in the browser
 if (global.Buffer) {
 	describe('Buffer', function () {
-		it('should pass if they contain the same bytes', function () {
+		it('should compare on content', function () {
 			equal(new Buffer('abc'), new Buffer('abc')).should.be.true
-		})
-		it('should fail otherwise', function () {
 			equal(new Buffer('a'), new Buffer('b')).should.be.false
+			equal(new Buffer('a'), new Buffer('ab')).should.be.false
 		})
 	})
 }

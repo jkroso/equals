@@ -10,87 +10,98 @@ exports.all = allEqual
 var Buffer = (function(){return this}()).Buffer
 
 /**
- * Values are considered equal if they could be swapped without consequence
+ * Primitive types are equal if they represent the same value. 
+ * While composite types, i.e. Objects and Arrays, are considered
+ * equal if their structure is the same, i.e. they have the same set of 
+ * properties, and the primitive type bound to each property has the 
+ * same value. Composite structures can be nested preactically as deep 
+ * as you like and circular references are fine
  *
+ * Same structure:
  *   equal(
  *     { a : [ 2, 3 ], b : [ 4 ] },
  *     { a : [ 2, 3 ], b : [ 4 ] }
  *   ) // => true
- *   
+ * 
+ * Different Structure:
  *   equal(
  *     { x : 5, y : [6] },
  *     { x : 5, y : 6 }
  *   ) // => false
+ *
+ * Same structure, different values:
+ *   equal(
+ *     { a: [ 1, 2 ], b : [ 4 ]},
+ *     { a: [ 2, 3 ], b : [ 4 ]}
+ *   ) // => false
+ *
+ * Same values:
+ *   equal(new Date(0), new Date(0)) // => true
  *   
  * Some possible gotchas:
- * 
- * - null is __not__ equal to undefined
- * - NaN __is__ equal to NaN (normally not the case in JS)
- * - -0 is equal to +0
- * - Strings will __not__ coerce to numbers
- * - Non enumerable properties will not be checked. (They can't be)
- * - Arguments objects may differ on callee. Slice them first if you don't want to consider that
+ * - null is __not__ equal to undefined  
+ * - NaN __is__ equal to NaN (normally not the case in JS)  
+ * - -0 is equal to +0  
+ * - Strings will __not__ coerce to numbers  
+ * - Non enumerable properties will not be checked. (They can't be) Though 
+ *  special exceptions are made for `length` and `constructor` properties
+ *  since many common patterns make these normally non-enumerable properties 
+ *  enumerable  
+ * - Arguments objects may differ on callee though this property is 
+ *  non-enumerable so will not be considered. Usually this is the desired 
+ *  behavior though so no special case has been made for it.  
  */
 
 function deepEqual (a, b, memos) {
 	// All identical values are equivalent
 	if (a === b) return true
+	// Null and undefined are proper primitives so have no constructor
+	if (a === null || a === undefined) return false
 
-	switch (typeof a) {
-		case 'object': break
-		
-		case 'function': 
-			if (typeof b !== 'function') return false 
-			if (a.length !== b.length) return false
-			// TODO: fix argument names problem 
-			if (a.toString() !== b.toString()) return false
-			// an identical 'prototype' property.
-			if (!deepEqual(a.prototype, b.prototype)) return false
-			// Functions can act as objects but perhaps we shouldn't compare on that basis
-			return objEquiv(a, b)
-		
-		case 'number':
+	// Check for primitive types
+	// Note: I'm using the constructor to figure out their type since `typeof`
+	// is unreliable for primitives e.g `typeof Number(1) === 'object'`
+	switch (a.constructor) {
+		case Number:
 			// Check for NaN since NaN === NaN // => false
 			// Note: we don't need to check a is NaN here since the very first check would 
 			// have returned true if it was anything else
 			return b !== b
-		// string
-		// boolean
-		// undefined
-		// must be false since otherwise the first check would of passed
-		default: return false
-	}
-
-	// Null is considered an object so needs a special case
-	if (a === null) return b === null
-	// At this point we know that both a and b are objects
-
-	// TODO: perhaps types should be relevant 
-	// if (typeA !== typeB) return false
-
-	// Handle objects which should be treated differently
-	switch (a.constructor) {
+		case Function: 
+			if (typeof b !== 'function') return false 
+			// TODO: fix argument names problem
+			if (a.toString() !== b.toString()) return false
+			// Functions can act as objects and often have class methods
+			// bound to them so we compare them as Objects also
+			return objEquiv(a, b) 
+				// `prototype` is non enumerable so needs to be compared seperately
+				&& a.prototype
+				&& b.prototype
+				&& objEquiv(a.prototype, b.prototype)
 		case Date:
 			return b instanceof Date && +a === +b
 		case RegExp:
 			return b instanceof RegExp && a.toString() === b.toString()
-		// Note: Buffers do not exist in browsers but that shouldn't cause problems
 		case Buffer:
-			// Fast buffer equality check
-			if (a.length !== b.length) return false
-			for (var i = 0; i < a.length; i++) {
-				if (a[i] !== b[i]) return false
+			// reusing the `memos` var here as an index
+			if ((memos = a.length) !== b.length) return false
+			while (memos--) {
+				if (a[memos] !== b[memos]) return false
 			}
 			return true
+		case String:
+		case Boolean:
+			return false
+		// Otherwise it must be a composite Object so we look at it contents
+		default:
+			return objEquiv(a, b, memos)
 	}
-	// compare as a map of properties to values
-	return objEquiv(a, b, memos)
 }
 
 
 /**
- * If you already know the two things you are non-primitive you can save 
- * processing time by calling this function directly.
+ * If you already know your values are non-primitive you can save 
+ * processing time by calling `equal.object` directly.
  *
  *   equals.object(
  *     {0:'first', 1: 'second', length:2},
@@ -100,12 +111,14 @@ function deepEqual (a, b, memos) {
  * For objects equivalence is determined by having the same number of 
  * enumerable properties, the same set of keys, and equivalent values for 
  * every key.
- * Note: the indexed properties of Arrays are enumerable therefore their
- * values will be compared. Also `length` is always considered enumerable
- * for the purpose of this test therefore:
+ * 
+ * Note: `length` is always checked even if it isn't enumerable while 
+ * `constructor` is never checked:
  * 
  *   equals([], {length:0}) // => true`
  *   equals([], {}) // => false`
+ *
+ * Also note that inherited properties are compared
  * 
  * @param {Object|Array} a
  * @param {Object|Array} b
@@ -132,7 +145,7 @@ function objEquiv(a, b, memos) {
 	// having the same number of properties
 	if ((i = ka.length) !== kb.length) return false
 
-	//the same set of keys (although not necessarily the same order),
+	//the same set of keys (although not necessarily the same order)
 	ka.sort()
 	kb.sort()
 	// cheap key test
@@ -176,7 +189,9 @@ function allEqual () {
  */
 
 var ignore = {
+	// because `fn.prototype = {}` is a common pattern
 	constructor: true,
+	// because `[]` should be considered equivalent to `{length:0}`
 	length: true
 }
 

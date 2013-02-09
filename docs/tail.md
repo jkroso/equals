@@ -1,6 +1,6 @@
 
 ## Contributing
-As with all my work this is both a work in progress and a thought in progress. Feel free to chip in in any way you can.
+As with all my work this is both a work in progress and a thought in progress. Feel free to chip in in any way you can. Optimisations are welcome so long as they are supported with benchmarks.
 
 ## Release History
 _(Nothing yet)_
