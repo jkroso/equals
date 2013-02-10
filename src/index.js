@@ -7,7 +7,7 @@ exports.all = allEqual
  * and the lookup goes all the way to the top without a hit we crash
  */
 
-var Buffer = (function(){return this}()).Buffer
+var Buffer = (function(){return this}()).Buffer || {}
 
 /**
  * Primitive types are equal if they represent the same value. 
@@ -58,8 +58,7 @@ function deepEqual (a, b, memos) {
 	// Null and undefined are proper primitives so have no constructor
 	if (a === null || a === undefined) return false
 
-	// Check for primitive types
-	// Note: I'm using the constructor to figure out their type since `typeof`
+	// I'm using the constructor to figure out their type since `typeof`
 	// is unreliable for primitives e.g `typeof Number(1) === 'object'`
 	switch (a.constructor) {
 		case Number:
@@ -69,7 +68,6 @@ function deepEqual (a, b, memos) {
 			return b !== b
 		case Function: 
 			if (typeof b !== 'function') return false 
-			// TODO: fix argument names problem
 			if (a.toString() !== b.toString()) return false
 			// Functions can act as objects and often have class methods
 			// bound to them so we compare them as Objects also
@@ -82,6 +80,9 @@ function deepEqual (a, b, memos) {
 			return b instanceof Date && +a === +b
 		case RegExp:
 			return b instanceof RegExp && a.toString() === b.toString()
+		case String:
+		case Boolean:
+			return false
 		case Buffer:
 			// reusing the `memos` var here as an index
 			if ((memos = a.length) !== b.length) return false
@@ -89,10 +90,6 @@ function deepEqual (a, b, memos) {
 				if (a[memos] !== b[memos]) return false
 			}
 			return true
-		case String:
-		case Boolean:
-			return false
-		// Otherwise it must be a composite Object so we look at it contents
 		default:
 			return objEquiv(a, b, memos)
 	}

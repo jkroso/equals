@@ -199,3 +199,13 @@ if (global.Buffer) {
 		})
 	})
 }
+
+describe('possible regressions', function () {
+	it('should handle objects with no constructor property', function () {
+		var a = Object.create(null)
+		equal(a, {}).should.be.true
+		equal({}, a).should.be.true
+		equal(a, {a:1}).should.be.false
+		equal({a:1}, a).should.be.false
+	})
+})	
