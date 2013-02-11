@@ -59,7 +59,7 @@ function deepEqual (a, b, memos) {
 	if (a === null || a === undefined) return false
 
 	// I'm using the constructor to figure out their type since `typeof`
-	// is unreliable for primitives e.g `typeof Number(1) === 'object'`
+	// is unreliable for primitives e.g `typeof new Number === 'object'`
 	switch (a.constructor) {
 		case Number:
 			// Check for NaN since NaN === NaN // => false
@@ -84,6 +84,7 @@ function deepEqual (a, b, memos) {
 		case Boolean:
 			return false
 		case Buffer:
+			if (!(b instanceof Buffer)) return false
 			// reusing the `memos` var here as an index
 			if ((memos = a.length) !== b.length) return false
 			while (memos--) {

@@ -197,6 +197,12 @@ if (global.Buffer) {
 			equal(new Buffer('a'), new Buffer('b')).should.be.false
 			equal(new Buffer('a'), new Buffer('ab')).should.be.false
 		})
+		it('should fail against anything other than a buffer', function () {
+			equal(new Buffer('abc'), [97,98,99]).should.be.false
+			equal(new Buffer('abc'), {0:97,1:98,2:99,length:3}).should.be.false
+			equal([97,98,99], new Buffer('abc')).should.be.false
+			equal({0:97,1:98,2:99,length:3}, new Buffer('abc')).should.be.false
+		})
 	})
 }
 
@@ -208,4 +214,4 @@ describe('possible regressions', function () {
 		equal(a, {a:1}).should.be.false
 		equal({a:1}, a).should.be.false
 	})
-})	
+})
