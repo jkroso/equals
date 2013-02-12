@@ -22,6 +22,7 @@ var equal = require('equals')
   - [deepEqual()](#deepequal)
   - [objEquiv()](#objequiv)
   - [allEqual()](#allequal)
+  - [make()](#make)
 
 ## deepEqual()
 
@@ -114,6 +115,10 @@ equals([], {}) // => false`
 equal.all(1,1,1,1) // => true
 ```
 
+## make()
+
+  Create a custom version of this module
+  properties matching `regex` will be excluded
 
 ## Contributing
 As with all my work this is both a work in progress and a thought in progress. Feel free to chip in in any way you can. Optimisations are welcome so long as they are supported with benchmarks.

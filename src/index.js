@@ -1,6 +1,8 @@
-exports = module.exports = deepEqual
-exports.object = objEquiv
-exports.all = allEqual
+// set the exports
+module.exports = deepEqual
+deepEqual.object = objEquiv
+deepEqual.all = allEqual
+deepEqual.custom = make
 
 /*!
  * Get a local reference to Buffer since otherwise if we are in a browser 
@@ -195,18 +197,6 @@ function allEqual () {
 }
 
 /*!
- * A list of properties which are sometimes enumerable
- * so should be ignored
- */
-
-var ignore = {
-	// because `fn.prototype = {}` is a common pattern
-	constructor: true,
-	// because `[]` should be considered equivalent to `{length:0}`
-	length: true
-}
-
-/*!
  * Extract all enumerable keys whether on the object or its prototype chain
  *
  * @param {Object} object
@@ -216,7 +206,42 @@ var ignore = {
 function getEnumerableProperties (object) {
 	var result = []
 	for (var name in object) {
-		if (!ignore[name]) result.push(name)
+		if (!regex.test(name)) result.push(name)
 	}
 	return result
 }
+
+/**
+ * Create a custom version of this module
+ * properties matching `regex` will be excluded
+ *
+ * @param {RegExp} [regex]
+ * @return {Function} deepEqual
+ */
+
+function make (regex) {
+	regex || (regex = /$./)
+	return eval([
+		deepEqual,
+		objEquiv,
+		allEqual,
+		getEnumerableProperties,
+		'deepEqual.all = allEqual',
+		'deepEqual.object = objEquiv',
+		'deepEqual'
+	].join('\n'))
+}
+
+/*!
+ * test for properties which should be ignored by default
+ * if you would like to exclude different properties you can 
+ * use `make(/my black list/)`
+ * 
+ * - constructor:
+ *   because `fn.prototype = {}` is a common pattern
+ * - length:
+ *   because Array isn't commonly considered a primitive so 
+ *   `[]` should be considered equivalent to `{length:0}`
+ */
+
+var regex = /constructor|length/

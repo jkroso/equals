@@ -3,7 +3,7 @@ SRC = src/*.js
 GRAPH = node_modules/.bin/sourcegraph.js src/index.js --plugins=javascript,nodeish
 BIGFILE = node_modules/.bin/bigfile -p nodeish --export $(EXPORT)
 
-all: clean dist dist/equals.min.js test Readme.md
+all: clean dist dist/equals.min.js test test/built.js Readme.md
 
 browser: dist/equals.min.js.gz dist/equals.js
 

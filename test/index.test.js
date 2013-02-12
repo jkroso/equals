@@ -95,6 +95,7 @@ describe('Strings', function () {
 		equal('hi', 'Hi').should.equal(false)
 		equal('hi', 'hi').should.equal(true)
 	})
+
 	it('empty string should equal empty string', function () {
 		equal('', "").should.be.true
 	})
@@ -179,9 +180,11 @@ describe('equal.all(...)', function () {
 	it('should handle no values', function () {
 		equal.all().should.equal(true)
 	})
+
 	it('should handle one value', function () {
 		equal.all({}).should.equal(true)
 	})
+
 	it('should handle many values', function () {
 		var vals = []
 		for (var i = 0; i < 1000; i++) {
@@ -199,6 +202,7 @@ if (global.Buffer) {
 			equal(new Buffer('a'), new Buffer('b')).should.be.false
 			equal(new Buffer('a'), new Buffer('ab')).should.be.false
 		})
+
 		it('should fail against anything other than a buffer', function () {
 			equal(new Buffer('abc'), [97,98,99]).should.be.false
 			equal(new Buffer('abc'), {0:97,1:98,2:99,length:3}).should.be.false
@@ -207,6 +211,34 @@ if (global.Buffer) {
 		})
 	})
 }
+
+describe('configurable property exclusion', function () {
+	it('should ignore properties that match the given regex', function () {
+		var eq = equal.custom(/^_/)
+		eq({_b:2}, {_b:3}).should.be.true
+	})
+
+	it('should default to not excluding any properties', function () {
+		var eq = equal.custom()
+		eq({a:1},{a:1}).should.be.true
+		eq({"":1},{}).should.be.false
+		eq({a:1},{}).should.be.false
+		eq({b:1},{}).should.be.false
+		eq({"!":1},{}).should.be.false
+		eq({"~":1},{}).should.be.false
+		eq({"#":1},{}).should.be.false
+		eq({"$":1},{}).should.be.false
+		eq({"%":1},{}).should.be.false
+		eq({"^":1},{}).should.be.false
+		eq({"&":1},{}).should.be.false
+		eq({"*":1},{}).should.be.false
+		eq({"(":1},{}).should.be.false
+		eq({")":1},{}).should.be.false
+		eq({"-":1},{}).should.be.false
+		eq({"+":1},{}).should.be.false
+		eq({"=":1},{}).should.be.false
+	})
+})
 
 describe('possible regressions', function () {
 	it('should handle objects with no constructor property', function () {
@@ -229,9 +261,6 @@ describe('possible regressions', function () {
 
 		equal(new Boolean, {}).should.be.false
 		equal({}, new Boolean).should.be.false
-
-		equal(new Buffer('a'), [97]).should.be.false
-		equal([97], new Buffer('a')).should.be.false
 
 		equal(new Date, {}).should.be.false
 		equal({}, new Date).should.be.false
