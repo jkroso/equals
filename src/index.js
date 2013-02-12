@@ -56,8 +56,10 @@ function deepEqual (a, b, memos) {
 	// All identical values are equivalent
 	if (a === b) return true
 	// Null and undefined are proper primitives so have no constructor
-	if (a === null || a === undefined) return false
+	// Note: `null == undefined => true`
+	if (a == null || b == null) return false
 
+	// Check for primitive types since each has its own special case
 	// I'm using the constructor to figure out their type since `typeof`
 	// is unreliable for primitives e.g `typeof new Number === 'object'`
 	switch (a.constructor) {
@@ -91,9 +93,20 @@ function deepEqual (a, b, memos) {
 				if (a[memos] !== b[memos]) return false
 			}
 			return true
-		default:
-			return objEquiv(a, b, memos)
 	}
+
+	// At this point we know a is non-primitive but b still could be
+	switch (b.constructor) {
+		case Number:
+		case Function:
+		case Date:
+		case RegExp:
+		case Boolean:
+		case Buffer:
+			return false
+	}
+
+	return objEquiv(a, b, memos)
 }
 
 

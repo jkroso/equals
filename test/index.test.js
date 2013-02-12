@@ -130,6 +130,7 @@ describe('Cyclic structures', function () {
 		b.self = b
 		equal(a, b).should.equal(true)
 	})
+
 	it('should handle functions', function () {
 		equal.object(function () {}, function () {}).should.be.true
 	})
@@ -139,36 +140,37 @@ describe('functions', function () {
 	it('should fail if they have different names', function () {
 		equal(function a() {}, function b() {}).should.be.false
 	})
+
 	it('should pass if they are both anonamous', function () {
 		equal(function () {}, function () {}).should.be.true
 	})
+
 	it.skip('handle the case where they have different argument names', function () {
 		equal(function (b) {return b}, function (a) {return a}).should.be.true
 	})
+
 	it('should compare them as objects', function () {
 		var a = function () {}
 		var b = function () {}
 		a.title = 'sometitle'
 		equal(a, b).should.be.false
 	})
-	it('should be true if they have equal methods', function () {
-		equal(
-			{
-				noop: function () {}
-			},
-			{
-				noop: function () {}
-			}
-		).should.be.true
+
+	it('should compare their prototypes', function () {
+		var a = function () {}
+		var b = function () {}
+		a.prototype.a = 1
+		equal(a,b).should.be.false
 	})
-	it('should be false if they have different methods', function () {
+
+	it('should be able to compare object methods', function () {
 		equal(
-			{
-				noop: function (a) {}
-			},
-			{
-				noop: function () {}
-			}
+			{noop: function () {}},
+			{noop: function () {}}
+		).should.be.true
+		equal(
+			{noop: function (a) {}},
+			{noop: function () {}}
 		).should.be.false
 	})
 })
@@ -213,5 +215,28 @@ describe('possible regressions', function () {
 		equal({}, a).should.be.true
 		equal(a, {a:1}).should.be.false
 		equal({a:1}, a).should.be.false
+	})
+
+	it('when comparing primitives to composites', function () {
+		equal({}, undefined).should.be.false
+		equal(undefined, {}).should.be.false
+
+		equal(new String, {}).should.be.false
+		equal({}, new String).should.be.false
+
+		equal({}, new Number).should.be.false
+		equal(new Number, {}).should.be.false
+
+		equal(new Boolean, {}).should.be.false
+		equal({}, new Boolean).should.be.false
+
+		equal(new Buffer('a'), [97]).should.be.false
+		equal([97], new Buffer('a')).should.be.false
+
+		equal(new Date, {}).should.be.false
+		equal({}, new Date).should.be.false
+
+		equal(new RegExp, {}).should.be.false
+		equal({}, new RegExp).should.be.false
 	})
 })
