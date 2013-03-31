@@ -1,43 +1,28 @@
-EXPORT = equal
-SRC = src/*.js
-GRAPH = node_modules/.bin/sourcegraph.js src/index.js --plugins=javascript,nodeish
-BIGFILE = node_modules/.bin/bigfile -p nodeish --export $(EXPORT)
+EXPORT = equals
+GRAPH = node_modules/.bin/sourcegraph.js index.js -p javascript,nodeish
+BIGFILE = node_modules/.bin/bigfile -p nodeish,javascript --export $(EXPORT)
 
-all: clean dist dist/equals.min.js test test/built.js Readme.md
+all: test/built.js dist/equals.js
 
-browser: dist/equals.min.js.gz dist/equals.js
+browser: dist/equals.js
 
 dist:
-	@mkdir dist
+	@mkdir -p dist
 
-dist/equals.min.js.gz: dist/equals.min.js
-	@gzip --best -c dist/equals.min.js > dist/equals.min.js.gz
-
-dist/equals.min.js:
-	@$(GRAPH) | $(BIGFILE)\
-		--production > dist/equals.min.js
-
-dist/equals.js:
+dist/equals.js: dist index.js
 	@$(GRAPH) | $(BIGFILE) > dist/equals.js
 
 test:
 	@node_modules/.bin/mocha -R spec test/*.test.js
 
-test/built.js: src/*.js test/*.test.js test/browser.js
+test/built.js: index.js test/*
 	@node_modules/.bin/sourcegraph.js test/browser.js \
 		--plugins mocha,nodeish,javascript \
-		| node_modules/.bin/bigfile \
-		 	--export null \
-		 	--plugins nodeish > test/built.js
+		| node_modules/.bin/bigfile.js \
+			--export null \
+			--plugins nodeish,javascript > $@
 
 clean:
 	@rm -rf dist test/built.js components build
 
-Readme.md: src/* docs/*
-	@cat docs/head.md > Readme.md
-	@cat src/index.js\
-	 | sed s/.*=.$$//\
-	 | dox -a >> Readme.md
-	@cat docs/tail.md >> Readme.md
-
-.PHONY: all build test clean dist
+.PHONY: all build test clean
