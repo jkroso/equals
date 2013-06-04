@@ -5,13 +5,9 @@
 
 ## Getting Started
 
-_With component_  
+_With [component](//github.com/component/component), [packin](//github.com/jkroso/packin) or [npm](//github.com/isaacs/npm)_  
 
-	$ component install jkroso/equals
-
-_With npm_  
-
-	$ npm install jkroso/equals --save
+    $ {package mananger} install jkroso/equals
 
 then in your app:
 
@@ -70,12 +66,5 @@ Some possible gotchas:
 
 ```bash
 $ npm install
-$ make
+$ make test
 ```
-Then open your browser to the `./test` directory.
-
-_Note: these commands don't work on windows._ 
-
-## License 
-
-[MIT](License)

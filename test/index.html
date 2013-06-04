@@ -6,6 +6,16 @@
 	</head>
 	<body>
 		<div id="mocha"></div>
-		<script src="built.js"></script>
+		<script>
+			var mocha = require('mocha')
+
+			mocha.setup('bdd')
+
+			require('./index.test.js')
+
+			mocha.run(function () {
+				console.log('Done!')
+			})
+		</script>
 	</body>
 </html>

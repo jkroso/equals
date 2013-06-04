@@ -1,28 +1,17 @@
-EXPORT = equals
-GRAPH = node_modules/.bin/sourcegraph.js index.js -p javascript,nodeish
-BIGFILE = node_modules/.bin/bigfile -p nodeish,javascript --export $(EXPORT)
+REPORTER=dot
 
-all: test/built.js dist/equals.js
-
-browser: dist/equals.js
-
-dist:
-	@mkdir -p dist
-
-dist/equals.js: dist index.js
-	@$(GRAPH) | $(BIGFILE) > dist/equals.js
+serve: node_modules
+	@node_modules/.bin/serve
 
 test:
-	@node_modules/.bin/mocha -R spec test/*.test.js
+	@node_modules/.bin/mocha test/*.test.js \
+		--reporter $(REPORTER) \
+		--bail
 
-test/built.js: index.js test/*
-	@node_modules/.bin/sourcegraph.js test/browser.js \
-		--plugins mocha,nodeish,javascript \
-		| node_modules/.bin/bigfile.js \
-			--export null \
-			--plugins nodeish,javascript > $@
+node_modules: package.json
+	@npm install
 
 clean:
-	@rm -rf dist test/built.js components build
+	rm -r node_modules
 
-.PHONY: all build test clean
+.PHONY: clean serve test

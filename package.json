@@ -1,19 +1,14 @@
 {
   "name": "equals",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Check if two values are deeply equivalent",
-  "main": "src/index.js",
   "dependencies": {
-    "type": "https://github.com/jkroso/type/archive/08b3600.tar.gz"
+    "type": "https://github.com/jkroso/type/tarball/1.0.1"
   },
   "devDependencies": {
-    "bigfile": "0.3.1",
-    "chai": "1.4.2",
-    "mocha": "1.8.2",
-    "sourcegraph": "0.5.0"
-  },
-  "scripts": {
-    "test": "make test"
+    "chai": "~1.6.0",
+    "mocha": "~1.10.0",
+    "serve": "http://github.com/jkroso/serve/tarball/1.2.2"
   },
   "repository": {
     "type": "git",
