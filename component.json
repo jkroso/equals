@@ -15,7 +15,6 @@
   "dependencies": {
     "jkroso/type": "*"
   },
-  "main": "src/index.js",
   "scripts": [
     "index.js"
   ],
