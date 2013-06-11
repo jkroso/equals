@@ -18,6 +18,7 @@ var equals = require('equals')
 ## API
 
   - [equals()](#equals)
+  - [compare()](#compare)
 
 ### equals(...)
 
@@ -42,7 +43,7 @@ equals(
 Same structure, different values:
 
 ```js
-equal(
+equals(
   { a: [ 1, 2 ], b : [ 4 ]},
   { a: [ 2, 3 ], b : [ 4 ]}
 ) // => false
@@ -51,7 +52,7 @@ equal(
 Primitives:
 
 ```js
-equal(new Date(0), new Date(0), new Date(1)) // => false
+equals(new Date(0), new Date(0), new Date(1)) // => false
 ```
     
 Some possible gotchas:
@@ -61,6 +62,14 @@ Some possible gotchas:
 - Strings will __not__ coerce to numbers.
 - Non enumerable properties will not be checked. They can't be.
 - `arguments.callee` is not considered when comparing arguments
+
+### compare(a, b)
+
+  compare two values. 
+
+```js
+equals.compare({}, {}) // => true
+```
 
 ## Running the tests
 
