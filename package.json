@@ -1,14 +1,14 @@
 {
   "name": "equals",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Check if two values are deeply equivalent",
   "dependencies": {
     "type": "https://github.com/jkroso/type/tarball/1.0.1"
   },
   "devDependencies": {
-    "chai": "~1.6.0",
+    "chai": "~1.6.1",
     "mocha": "~1.10.0",
-    "serve": "http://github.com/jkroso/serve/tarball/1.2.2"
+    "serve": "http://github.com/jkroso/serve/tarball/1.2.4"
   },
   "repository": {
     "type": "git",
