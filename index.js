@@ -1,4 +1,3 @@
-
 var type = require('type')
 
 /**
@@ -34,7 +33,7 @@ types.number = function(a){
 }
 
 // (function, function, array) -> boolean
-types.function = function(a, b, memos){
+types.['function'] = function(a, b, memos){
 	return a.toString() === b.toString()
 		// Functions can act as objects
 	  && types.object(a, b, memos) 
