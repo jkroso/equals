@@ -34,7 +34,7 @@ types.number = function(a){
 }
 
 // (function, function, array) -> boolean
-types.function = function(a, b, memos){
+types['function'] = function(a, b, memos){
 	return a.toString() === b.toString()
 		// Functions can act as objects
 	  && types.object(a, b, memos) 
@@ -74,7 +74,7 @@ function memoGaurd(fn){
 	}
 }
 
-types.arguments =
+types['arguments'] =
 types.array = memoGaurd(compareArrays)
 
 // (array, array, array) -> boolean
