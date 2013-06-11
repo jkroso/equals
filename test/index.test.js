@@ -272,3 +272,11 @@ describe('possible regressions', function () {
 		equal({}, new RegExp).should.be.false
 	})
 })
+
+describe('compare', function(){
+	it('should be usable', function(){
+		equal.compare({}, new Date).should.be.false
+		equal.compare({}, {}).should.be.true
+		equal.compare([], []).should.be.true
+	})
+})

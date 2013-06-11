@@ -128,5 +128,5 @@ function getEnumerableProperties (object) {
 	return result
 }
 
-module.exports.object = types.object
+// expose compare
 module.exports.compare = compare
