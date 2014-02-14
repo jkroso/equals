@@ -52,21 +52,6 @@ describe('Comparing arguments', function () {
   })
 })
 
-describe('export.object(a,b)', function () {
-  it('should work just the same as equal for objects', function () {
-    equal.object(
-      { a : [ 2, 3 ], b : [ 4 ] },
-      { a : [ 2, 3 ], b : [ 4 ] }
-    ).should.be.true
-  })
-  it.skip('should work when comparing with Arrays', function () {
-    equal.object(
-      {0:'first', 1: 'second', length:2},
-      ['first', 'second']
-    ).should.be.true
-  })
-})
-
 describe('Numbers', function () {
   it('should not coerce strings', function () {
     equal('1', 1).should.equal(false)
