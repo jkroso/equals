@@ -2,13 +2,20 @@
 var type = require('type')
 
 /**
+ * expose equals
+ */
+
+module.exports = equals
+equals.compare = compare
+
+/**
  * assert all values are equal
  *
  * @param {Any} [...]
  * @return {Boolean}
  */
 
-module.exports = function(){
+ function equals(){
   var i = arguments.length - 1
   while (i > 0) {
     if (!compare(arguments[i], arguments[--i])) return false
@@ -21,8 +28,10 @@ function compare(a, b, memos){
   // All identical values are equivalent
   if (a === b) return true
   var fnA = types[type(a)]
-  if (fnA !== types[type(b)]) return false
-  return fnA ? fnA(a, b, memos) : false
+  var fnB = types[type(b)]
+  return fnA && fnA === fnB
+    ? fnA(a, b, memos)
+    : false
 }
 
 var types = {}
@@ -37,7 +46,7 @@ types.number = function(a){
 types['function'] = function(a, b, memos){
   return a.toString() === b.toString()
     // Functions can act as objects
-    && types.object(a, b, memos) 
+    && types.object(a, b, memos)
     && compare(a.prototype, b.prototype)
 }
 
@@ -127,6 +136,3 @@ function getEnumerableProperties (object) {
   }
   return result
 }
-
-// expose compare
-module.exports.compare = compare
