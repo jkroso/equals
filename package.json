@@ -1,22 +1,17 @@
 {
   "name": "equals",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Check if two values are deeply equivalent",
   "dependencies": {
-    "type": "https://github.com/jkroso/type/tarball/1.0.1"
+    "type": "jkroso/type#1.0.2"
   },
   "devDependencies": {
-    "chai": "~1.6.1",
-    "mocha": "~1.10.0",
-    "serve": "http://github.com/jkroso/serve/tarball/1.2.4"
+    "serve": "jkroso/serve",
+    "mocha": "*",
+    "chai": "*"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/jkroso/equals.git"
-  },
-  "bugs": {
-    "url": "https://github.com/jkroso/equals/issues"
-  },
+  "repository": "git://github.com/jkroso/equals.git",
+  "bugs": "https://github.com/jkroso/equals/issues",
   "keywords": [
     "equality",
     "equal",
@@ -25,6 +20,6 @@
     "equivalence",
     "="
   ],
-  "author": "Jakeb Rosoman",
+  "author": "Jake Rosoman",
   "license": "MIT"
 }

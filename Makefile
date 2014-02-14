@@ -1,15 +1,15 @@
 REPORTER=dot
 
 serve: node_modules
-	@node_modules/.bin/serve
+	@node_modules/serve/bin/serve
 
 test:
-	@node_modules/.bin/mocha test/*.test.js \
+	@node_modules/mocha/bin/mocha test/*.test.js \
 		--reporter $(REPORTER) \
 		--bail
 
 node_modules: package.json
-	@npm install
+	@packin install --meta $< --folder $@
 
 clean:
 	rm -r node_modules
