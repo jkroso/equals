@@ -37,7 +37,7 @@ describe('Comparing arguments', function () {
     equal(a,b).should.be.true
     equal(a,c).should.be.false
   })
-  
+
   it('should be comparable to an Array', function () {
     equal(a,[1,2,3]).should.be.true
     equal(a,[1,2,4]).should.be.false
