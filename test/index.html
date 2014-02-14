@@ -1,21 +1,21 @@
 <!doctype html>
 <html>
-	<head>
-		<title>equals tests</title>
-		<link rel="stylesheet" href="../node_modules/mocha/mocha.css">
-	</head>
-	<body>
-		<div id="mocha"></div>
-		<script>
-			var mocha = require('mocha')
+  <head>
+    <title>equals tests</title>
+    <link rel="stylesheet" href="../node_modules/mocha/mocha.css">
+  </head>
+  <body>
+    <div id="mocha"></div>
+    <script>
+      var mocha = require('mocha')
 
-			mocha.setup('bdd')
+      mocha.setup('bdd')
 
-			require('./index.test.js')
+      require('./index.test.js')
 
-			mocha.run(function () {
-				console.log('Done!')
-			})
-		</script>
-	</body>
+      mocha.run(function () {
+        console.log('Done!')
+      })
+    </script>
+  </body>
 </html>
