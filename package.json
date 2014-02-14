@@ -21,6 +21,7 @@
     "equivalence",
     "="
   ],
+  "files": ["index.js"],
   "author": "Jake Rosoman",
   "license": "MIT"
 }
