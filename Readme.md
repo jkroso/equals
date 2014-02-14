@@ -3,11 +3,13 @@
 
   compare values of any complexity for equivalence
 
-## Getting Started
+## Installation
 
-_With [component](//github.com/component/component), [packin](//github.com/jkroso/packin) or [npm](//github.com/isaacs/npm)_  
+With your favorite package manager:
 
-    $ {package mananger} install jkroso/equals
+- [packin](//github.com/jkroso/packin): `packin add equals`
+- [component](//github.com/component/component#installing-packages): `component install jkroso/equals`
+- [npm](//npmjs.org/doc/cli/npm-install.html): `npm install equals`
 
 then in your app:
 
@@ -16,9 +18,6 @@ var equals = require('equals')
 ```
 
 ## API
-
-  - [equals()](#equals)
-  - [compare()](#compare)
 
 ### equals(...)
 
@@ -69,11 +68,4 @@ Some possible gotchas:
 
 ```js
 equals.compare({}, {}) // => true
-```
-
-## Running the tests
-
-```bash
-$ npm install
-$ make test
 ```

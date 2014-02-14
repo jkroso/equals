@@ -6,8 +6,9 @@
     "type": "jkroso/type#1.0.2"
   },
   "devDependencies": {
-    "serve": "jkroso/serve",
+    "serve": "jkroso/serve#1.5.3",
     "mocha": "*",
+    "jsmd": "*",
     "chai": "*"
   },
   "repository": "git://github.com/jkroso/equals.git",
