@@ -2,7 +2,7 @@
   "name": "equals",
   "repo": "jkroso/equals",
   "description": "Check if two values are deeply equivalent",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "keywords": [
     "equality",
     "equal",
