@@ -6,21 +6,17 @@
     "type": "jkroso/type#1.1.0"
   },
   "devDependencies": {
-    "serve": "jkroso/serve#1.5.3",
-    "mocha": "*",
+    "serve": "jkroso/serve",
+    "hydro-html": "*",
+    "hydro-chai": "*",
+    "hydro-dot": "*",
+    "hydro-bdd": "*",
+    "hydro": "*",
     "jsmd": "*",
     "chai": "*"
   },
   "repository": "git://github.com/jkroso/equals.git",
-  "bugs": "https://github.com/jkroso/equals/issues",
-  "keywords": [
-    "equality",
-    "equal",
-    "same",
-    "equivalent",
-    "equivalence",
-    "="
-  ],
+  "keywords": ["equality", "equal", "equivalent", "equivalence", "="],
   "files": ["index.js"],
   "author": "Jake Rosoman",
   "license": "MIT"

@@ -1,19 +1,18 @@
-<!doctype html>
-<html>
-  <head>
-    <title>equals tests</title>
-    <link rel="stylesheet" href="../node_modules/mocha/mocha.css">
-  </head>
-  <body>
-    <div id="mocha"></div>
-    <script>
-      var mocha = require('mocha')
 
-      mocha.setup('bdd')
+<title>equals tests</title>
+<link rel="stylesheet" href="../node_modules/hydro-html/index.css">
 
-      require('./index.test.js')
+<div id="hydro"></div>
 
-      mocha.run()
-    </script>
-  </body>
-</html>
+<script>
+  var Hydro = require('hydro')
+  var hydro = new Hydro
+
+  require('./hydro.conf')(hydro)
+  hydro.set('formatter', require('hydro-html'))
+  hydro.setup()
+
+  require('./equals.test')
+
+  hydro.run()
+</script>
