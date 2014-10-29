@@ -1,7 +1,7 @@
 
 # equals
 
-  compare values of any complexity for equivalence
+  compare values of any type for equility
 
 ## Installation
 
@@ -14,18 +14,18 @@ With your favorite package manager:
 then in your app:
 
 ```js
-var equals = require('equals')
+var equal = require('equals')
 ```
 
 ## API
 
-### equals(...)
+### equal(a, b, [memos])
 
-equals takes as many arguments as you like of any type you like and returns a boolean result. Primitive types are equal if they are equal. While composite types, i.e. Objects and Arrays, are considered equal if they have both the same structure and the same content. Specifically that means the same set of keys each pointing to the same values. Composite structures can be as big as you like and and circular references are perfectly safe.
+`equal` takes as many arguments as you like of any type you like and returns a boolean result. Primitive types are equal if they are `===`. While composite types, i.e. Objects and Arrays, are considered equal if they have both the same structure and each sub-value is also `equal`. Circular references in composite structures are supported.
 
 Same structure:
 ```js
-equals(
+equal(
   { a : [ 2, 3 ], b : [ 4 ] },
   { a : [ 2, 3 ], b : [ 4 ] }
 ) // => true
@@ -33,7 +33,7 @@ equals(
 
 Different Structure:
 ```js
-equals(
+equal(
   { x : 5, y : [6] },
   { x : 5}
 ) // => false
@@ -42,30 +42,22 @@ equals(
 Same structure, different values:
 
 ```js
-equals(
+equal(
   { a: [ 1, 2 ], b : [ 4 ]},
   { a: [ 2, 3 ], b : [ 4 ]}
 ) // => false
 ```
-  
+
 Primitives:
 
 ```js
-equals(new Date(0), new Date(0), new Date(1)) // => false
+equal(new Date(0), new Date(1)) // => false
 ```
-    
+
 Some possible gotchas:
 - `null` __is not__ equal to `undefined`.
-- `NaN` __is__ equal to `NaN` (normally not the case).  
+- `NaN` __is__ equal to `NaN` (normally not the case).
 - `-0` __is__ equal to `+0`.
 - Strings will __not__ coerce to numbers.
 - Non enumerable properties will not be checked. They can't be.
 - `arguments.callee` is not considered when comparing arguments
-
-### compare(a, b)
-
-  compare two values. 
-
-```js
-equals.compare({}, {}) // => true
-```
