@@ -15,9 +15,8 @@ function equals(a, b, memos){
 var types = {}
 
 // (Number) -> boolean
-types.number = function(a){
-  // NaN check
-  return a !== a
+types.number = function(a, b){
+  return a !== a && b !== b/*Nan check*/
 }
 
 // (function, function, array) -> boolean
@@ -62,10 +61,10 @@ function memoGaurd(fn){
 }
 
 types['arguments'] =
-types.array = memoGaurd(compareArrays)
+types.array = memoGaurd(arrayEqual)
 
 // (array, array, array) -> boolean
-function compareArrays(a, b, memos){
+function arrayEqual(a, b, memos){
   var i = a.length
   if (i !== b.length) return false
   memos.push([a, b])
@@ -75,10 +74,14 @@ function compareArrays(a, b, memos){
   return true
 }
 
-types.object = memoGaurd(compareObjects)
+types.object = memoGaurd(objectEqual)
 
 // (object, object, array) -> boolean
-function compareObjects(a, b, memos) {
+function objectEqual(a, b, memos) {
+  if (typeof a.equal == 'function') {
+    memos.push([a, b])
+    return a.equal(b, memos)
+  }
   var ka = getEnumerableProperties(a)
   var kb = getEnumerableProperties(b)
   var i = ka.length
@@ -123,9 +126,8 @@ function getEnumerableProperties (object) {
  */
 
 function allEqual(){
-  var i = arguments.length - 1
-  while (i > 0) {
-    if (!equals(arguments[i], arguments[--i])) return false
+  for (var i = 0, l = arguments.length - 1; i < l;) {
+    if (!equals(arguments[i], arguments[++i])) return false
   }
   return true
 }

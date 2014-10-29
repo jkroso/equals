@@ -25,6 +25,11 @@ describe('Object strucures', function () {
     eql([ NaN, NaN, NaN ], [ NaN, NaN, NaN ]).should.be.true
     eql([ NaN, NaN, NaN ], [ NaN, 'NaN', NaN ]).should.be.false
    })
+
+   it('custom equal methods', function(){
+     eql({equal: function(){ return true }}, {}).should.be.true
+     eql({equal: function(){ return false }}, {}).should.be.false
+   })
 })
 
 describe('Comparing arguments', function () {
