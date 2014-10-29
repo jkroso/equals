@@ -1,8 +1,7 @@
-
 var type = require('type')
 
 // (any, any, [array]) -> boolean
-function equals(a, b, memos){
+function equal(a, b, memos){
   // All identical values are equivalent
   if (a === b) return true
   var fnA = types[type(a)]
@@ -24,7 +23,7 @@ types['function'] = function(a, b, memos){
   return a.toString() === b.toString()
     // Functions can act as objects
     && types.object(a, b, memos)
-    && equals(a.prototype, b.prototype)
+    && equal(a.prototype, b.prototype)
 }
 
 // (date, date) -> boolean
@@ -69,7 +68,7 @@ function arrayEqual(a, b, memos){
   if (i !== b.length) return false
   memos.push([a, b])
   while (i--) {
-    if (!equals(a[i], b[i], memos)) return false
+    if (!equal(a[i], b[i], memos)) return false
   }
   return true
 }
@@ -103,7 +102,7 @@ function objectEqual(a, b, memos) {
   i = ka.length
   while (i--) {
     var key = ka[i]
-    if (!equals(a[key], b[key], memos)) return false
+    if (!equal(a[key], b[key], memos)) return false
   }
 
   return true
@@ -118,23 +117,4 @@ function getEnumerableProperties (object) {
   return result
 }
 
-/**
- * assert all values are equal
- *
- * @param {Any} [...]
- * @return {Boolean}
- */
-
-function allEqual(){
-  for (var i = 0, l = arguments.length - 1; i < l;) {
-    if (!equals(arguments[i], arguments[++i])) return false
-  }
-  return true
-}
-
-/**
- * expose equals
- */
-
-module.exports = allEqual
-allEqual.compare = equals
+module.exports = equal

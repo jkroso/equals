@@ -164,28 +164,6 @@ describe('functions', function () {
   })
 })
 
-describe('many arguments', function () {
-  it('should handle no values', function () {
-    eql().should.be.true
-  })
-
-  it('should handle one value', function () {
-    eql({}).should.be.true
-  })
-
-  it('should handle many values', function () {
-    var vals = []
-    for (var i = 0; i < 1000; i++) {
-      vals.push({1:'I', 2:'am', 3:'equal'})
-    }
-    eql.apply(null, vals).should.be.true
-  })
-
-  it('should handle an odd number of values', function () {
-    eql([1], {}, {}).should.be.false
-  })
-})
-
 describe('Buffer', function () {
   it('should compare on content', function () {
     eql(new Buffer('abc'), new Buffer('abc')).should.be.true
