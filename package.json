@@ -1,9 +1,9 @@
 {
   "name": "equals",
-  "version": "0.3.7",
+  "version": "1.0.0",
   "description": "Check if two values are deeply equivalent",
   "dependencies": {
-    "type": "jkroso/type#1.1.0"
+    "type": "jkroso/type"
   },
   "devDependencies": {
     "serve": "jkroso/serve",

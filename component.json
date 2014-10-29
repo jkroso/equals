@@ -2,7 +2,6 @@
   "name": "equals",
   "repo": "jkroso/equals",
   "description": "Check if two values are deeply equivalent",
-  "version": "0.3.6",
   "keywords": [
     "equality",
     "equal",
@@ -13,7 +12,7 @@
     "equals"
   ],
   "dependencies": {
-    "jkroso/type": "1.1.0"
+    "jkroso/type": "*"
   },
   "scripts": ["index.js"],
   "license": "MIT"
