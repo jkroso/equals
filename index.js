@@ -60,6 +60,7 @@ function memoGaurd(fn){
 }
 
 types['arguments'] =
+types['bit-array'] =
 types.array = memoGaurd(arrayEqual)
 
 // (array, array, array) -> boolean

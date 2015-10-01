@@ -1,4 +1,3 @@
-
 var eql = require('..')
 
 describe('Object strucures', function () {
@@ -172,9 +171,9 @@ describe('Buffer', function () {
   })
 
   it('should fail against anything other than a buffer', function () {
-    eql(new Buffer('abc'), [97,98,99]).should.be.false
+    eql(new Buffer('abc'), [97,98,99]).should.be.true
     eql(new Buffer('abc'), {0:97,1:98,2:99,length:3}).should.be.false
-    eql([97,98,99], new Buffer('abc')).should.be.false
+    eql([97,98,99], new Buffer('abc')).should.be.true
     eql({0:97,1:98,2:99,length:3}, new Buffer('abc')).should.be.false
   })
 }).skip(typeof Buffer == 'undefined')
