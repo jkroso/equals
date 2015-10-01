@@ -1,9 +1,9 @@
 {
   "name": "equals",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Check if two values are deeply equivalent",
   "dependencies": {
-    "type": "jkroso/type"
+    "jkroso-type": "1"
   },
   "devDependencies": {
     "serve": "jkroso/serve",
@@ -12,7 +12,6 @@
     "hydro-dot": "*",
     "hydro-bdd": "*",
     "hydro": "*",
-    "jsmd": "*",
     "chai": "*"
   },
   "repository": "git://github.com/jkroso/equals.git",

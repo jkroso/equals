@@ -1,4 +1,4 @@
-var type = require('type')
+var type = require('jkroso-type')
 
 // (any, any, [array]) -> boolean
 function equal(a, b, memos){
