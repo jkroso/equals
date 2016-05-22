@@ -4,6 +4,7 @@ serve: node_modules
 test: node_modules
 	@$</hydro/bin/_hydro test/*.test.js \
 		--formatter $</hydro-dot \
+		--setup $</future-node \
 		--setup test/hydro.conf.js
 
 node_modules: package.json

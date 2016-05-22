@@ -1,12 +1,13 @@
 {
   "name": "equals",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "Check if two values are deeply equivalent",
   "dependencies": {
-    "@jkroso/type": "1"
+    "@jkroso/type": "2"
   },
   "devDependencies": {
     "serve": "jkroso/serve",
+    "future-node": "*",
     "hydro-html": "*",
     "hydro-chai": "*",
     "hydro-dot": "*",
@@ -14,6 +15,7 @@
     "hydro": "*",
     "chai": "*"
   },
+  "transpile": [["{index,test/*}.js", "!sourcegraph/babel->js", {"stage": 2}]],
   "repository": "git://github.com/jkroso/equals.git",
   "keywords": ["equality", "equal", "equivalent", "equivalence", "="],
   "files": ["index.js"],

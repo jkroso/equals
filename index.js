@@ -1,17 +1,17 @@
-var type = require('@jkroso/type')
+import type from '@jkroso/type'
 
 // (any, any, [array]) -> boolean
 function equal(a, b, memos){
   // All identical values are equivalent
   if (a === b) return true
-  var fnA = types[type(a)]
-  var fnB = types[type(b)]
+  const fnA = types[type(a)]
+  const fnB = types[type(b)]
   return fnA && fnA === fnB
     ? fnA(a, b, memos)
     : false
 }
 
-var types = {}
+const types = {}
 
 // (Number) -> boolean
 types.number = function(a, b){
@@ -110,12 +110,12 @@ function objectEqual(a, b, memos) {
 }
 
 // (object) -> array
-function getEnumerableProperties (object) {
-  var result = []
+const getEnumerableProperties = (object) => {
+  const result = []
   for (var k in object) if (k !== 'constructor') {
     result.push(k)
   }
   return result
 }
 
-module.exports = equal
+export default equal
