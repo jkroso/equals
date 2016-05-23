@@ -12,7 +12,7 @@
     "equals"
   ],
   "dependencies": {
-    "jkroso/type": "*"
+    "jkroso/type": "^1.1.0"
   },
   "scripts": ["index.js"],
   "license": "MIT"
