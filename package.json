@@ -1,6 +1,6 @@
 {
   "name": "equals",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Check if two values are deeply equivalent",
   "dependencies": {
     "@jkroso/type": "1"
